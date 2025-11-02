@@ -1,137 +1,117 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Özür Dilerim</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #000;
-            font-family: 'Arial', sans-serif;
-            overflow: hidden;
-        }
-        
-        .container {
-            text-align: center;
-            perspective: 1000px;
-        }
-        
-        .apology-text {
-            font-size: 5vw;
-            font-weight: bold;
-            color: #fff;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
-            animation: 
-                scaleInOut 4s ease-in-out infinite,
-                float 6s ease-in-out infinite;
-            transform-origin: center;
-        }
-        
-        @keyframes scaleInOut {
-            0% { 
-                transform: scale(0.1) rotateY(0deg); 
-                opacity: 0;
-            }
-            20% { 
-                transform: scale(1.2) rotateY(180deg); 
-                opacity: 1;
-            }
-            40% { 
-                transform: scale(1) rotateY(360deg); 
-                opacity: 1;
-            }
-            60% { 
-                transform: scale(1) rotateY(540deg); 
-                opacity: 1;
-            }
-            80% { 
-                transform: scale(1.2) rotateY(720deg); 
-                opacity: 1;
-            }
-            100% { 
-                transform: scale(0.1) rotateY(900deg); 
-                opacity: 0;
-            }
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-        
-        .dots {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: -1;
-        }
-        
-        .dot {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background-color: #fff;
-            border-radius: 50%;
-            animation: dotFloat 8s linear infinite;
-        }
-        
-        @keyframes dotFloat {
-            0% {
-                transform: translateY(100vh) scale(0);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.7;
-            }
-            90% {
-                opacity: 0.7;
-            }
-            100% {
-                transform: translateY(-100px) scale(1.5);
-                opacity: 0;
-            }
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Yazı ve Seçenekler</title>
+  <style>
+    html,body{height:100%;margin:0}
+    body{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      background: linear-gradient(135deg,#0f172a 0%, #0b3a4a 60%);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      overflow:hidden;
+      perspective:1000px;
+    }
+
+    .stage{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:2rem;
+    }
+
+    .fly-text{
+      font-size:clamp(28px,8vw,96px);
+      color:#fff;
+      font-weight:800;
+      letter-spacing:0.02em;
+      text-align:center;
+      padding:0.5em 1em;
+      border-radius:12px;
+      backdrop-filter: blur(6px) saturate(140%);
+      box-shadow: 0 20px 60px rgba(2,6,23,0.6), inset 0 -6px 30px rgba(255,255,255,0.02);
+      opacity:0;
+      animation: flyIn 1s cubic-bezier(.2,.9,.2,1) forwards;
+    }
+
+    @keyframes flyIn{
+      0%{transform: translate3d(0,-40vh,-900px) scale(0.18);opacity:0;}
+      100%{transform: translate3d(0,0,0) scale(1);opacity:1;}
+    }
+
+    .buttons{
+      position:fixed;
+      bottom:10%;
+      left:0;
+      right:0;
+      display:flex;
+      justify-content:space-between;
+      padding:0 10%;
+    }
+
+    button{
+      padding:1rem 2rem;
+      font-size:1.2rem;
+      border:none;
+      border-radius:8px;
+      cursor:pointer;
+      transition:transform 0.3s ease, background 0.3s, opacity 0.3s;
+    }
+
+    .yes{background:#16a34a;color:#fff;}
+    .no{background:#dc2626;color:#fff;}
+
+    @keyframes fadeOut{
+      from{opacity:1;}
+      to{opacity:0;}
+    }
+
+    @keyframes textAppear{
+      0%{opacity:0; transform:scale(0.5) rotateX(30deg);}
+      60%{opacity:1; transform:scale(1.05) rotateX(0deg);}
+      100%{transform:scale(1) rotateX(0deg);}
+    }
+  </style>
 </head>
 <body>
-    <div class="dots" id="dotsContainer"></div>
-    <div class="container">
-        <div class="apology-text">Özür Dilerim</div>
+  <div class="stage">
+    <div class="fly-text" id="text">ritaj malmısın</div>
+    <div class="buttons" id="buttons">
+      <button class="yes" id="yesBtn">Evet</button>
+      <button class="no" id="noBtn">Hayır</button>
     </div>
-    
-    <script>
-        // Nokta animasyonu için noktaları oluştur
-        function createDots() {
-            const dotsContainer = document.getElementById('dotsContainer');
-            const dotCount = 50;
-            
-            for (let i = 0; i < dotCount; i++) {
-                const dot = document.createElement('div');
-                dot.classList.add('dot');
-                
-                // Rastgele pozisyon
-                dot.style.left = Math.random() * 100 + 'vw';
-                dot.style.animationDelay = Math.random() * 8 + 's';
-                dot.style.animationDuration = (5 + Math.random() * 5) + 's';
-                
-                dotsContainer.appendChild(dot);
-            }
-        }
-        
-        // Sayfa yüklendiğinde noktaları oluştur
-        window.addEventListener('load', createDots);
-    </script>
+  </div>
+
+  <script>
+    const text = document.getElementById('text');
+    const yesBtn = document.getElementById('yesBtn');
+    const noBtn = document.getElementById('noBtn');
+    const buttons = document.getElementById('buttons');
+
+    let yesScale = 1;
+    let noScale = 1;
+
+    noBtn.addEventListener('click', () => {
+      yesScale += 0.1;
+      noScale -= 0.05;
+      if(noScale <= 0.2){
+        noBtn.style.opacity = '0';
+        setTimeout(()=>{ noBtn.style.display = 'none'; },300);
+      }
+      yesBtn.style.transform = `scale(${yesScale})`;
+      noBtn.style.transform = `scale(${Math.max(noScale, 0)})`;
+    });
+
+    yesBtn.addEventListener('click', () => {
+      document.body.innerHTML = `<div id='finalText' style="color:#fff;font-size:clamp(28px,8vw,96px);font-weight:800;opacity:0;text-align:center;">biliyodum malsın</div>`;
+      const finalText = document.getElementById('finalText');
+      finalText.style.animation = 'textAppear 1s ease forwards';
+    });
+  </script>
 </body>
 </html>
