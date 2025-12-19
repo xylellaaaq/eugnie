@@ -1,117 +1,597 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Yazı ve Seçenekler</title>
-  <style>
-    html,body{height:100%;margin:0}
-    body{
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      background: linear-gradient(135deg,#0f172a 0%, #0b3a4a 60%);
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      overflow:hidden;
-      perspective:1000px;
-    }
-
-    .stage{
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      gap:2rem;
-    }
-
-    .fly-text{
-      font-size:clamp(28px,8vw,96px);
-      color:#fff;
-      font-weight:800;
-      letter-spacing:0.02em;
-      text-align:center;
-      padding:0.5em 1em;
-      border-radius:12px;
-      backdrop-filter: blur(6px) saturate(140%);
-      box-shadow: 0 20px 60px rgba(2,6,23,0.6), inset 0 -6px 30px rgba(255,255,255,0.02);
-      opacity:0;
-      animation: flyIn 1s cubic-bezier(.2,.9,.2,1) forwards;
-    }
-
-    @keyframes flyIn{
-      0%{transform: translate3d(0,-40vh,-900px) scale(0.18);opacity:0;}
-      100%{transform: translate3d(0,0,0) scale(1);opacity:1;}
-    }
-
-    .buttons{
-      position:fixed;
-      bottom:10%;
-      left:0;
-      right:0;
-      display:flex;
-      justify-content:space-between;
-      padding:0 10%;
-    }
-
-    button{
-      padding:1rem 2rem;
-      font-size:1.2rem;
-      border:none;
-      border-radius:8px;
-      cursor:pointer;
-      transition:transform 0.3s ease, background 0.3s, opacity 0.3s;
-    }
-
-    .yes{background:#16a34a;color:#fff;}
-    .no{background:#dc2626;color:#fff;}
-
-    @keyframes fadeOut{
-      from{opacity:1;}
-      to{opacity:0;}
-    }
-
-    @keyframes textAppear{
-      0%{opacity:0; transform:scale(0.5) rotateX(30deg);}
-      60%{opacity:1; transform:scale(1.05) rotateX(0deg);}
-      100%{transform:scale(1) rotateX(0deg);}
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ritaj Malmısın - 100 Animasyon</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0a;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            color: white;
+            font-weight: 900;
+            letter-spacing: 2px;
+        }
+        
+        .animation-display {
+            height: 350px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: rgba(20, 20, 20, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            border: 2px solid #333;
+            position: relative;
+            overflow: hidden;
+            width: 90%;
+        }
+        
+        .text-display {
+            font-size: 4rem;
+            font-weight: 900;
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: rgba(30, 30, 30, 0.8);
+            border-radius: 15px;
+            width: 90%;
+            max-width: 800px;
+            border: 1px solid #444;
+        }
+        
+        /* SİYAH BEYAZ BUTONLAR */
+        button {
+            padding: 12px 20px;
+            font-size: 1rem;
+            background: #111;
+            color: white;
+            border: 2px solid #666;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        button:hover {
+            background: #222;
+            border-color: #aaa;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        button i {
+            margin-right: 8px;
+        }
+        
+        .auto-toggle {
+            position: relative;
+        }
+        
+        .auto-toggle.active {
+            background: #222;
+            border-color: #fff;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+        
+        .auto-toggle.active::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shine 2s infinite;
+        }
+        
+        .counter {
+            font-size: 1.2rem;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #111;
+            border-radius: 50px;
+            display: inline-block;
+            border: 1px solid #444;
+            color: #ddd;
+        }
+        
+        .animation-info {
+            font-size: 1.1rem;
+            margin-top: 10px;
+            color: #bbb;
+            min-height: 24px;
+            background-color: rgba(20, 20, 20, 0.7);
+            padding: 8px 15px;
+            border-radius: 8px;
+            display: inline-block;
+            border: 1px solid #333;
+        }
+        
+        .made-by {
+            margin-top: 40px;
+            padding: 15px 30px;
+            background-color: #111;
+            border-radius: 10px;
+            border: 1px solid #444;
+            font-size: 1.3rem;
+            color: #fff;
+            letter-spacing: 1px;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+        
+        .made-by span {
+            color: #aaa;
+            font-weight: 300;
+        }
+        
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        /* Animasyon stilleri */
+        /* Animasyon 1 */
+        .anim-1 {
+            animation: anim1 3s infinite alternate;
+            color: #fff;
+            text-shadow: 0 0 10px #fff;
+        }
+        @keyframes anim1 {
+            0% { transform: scale(1) rotate(0deg); }
+            100% { transform: scale(1.5) rotate(5deg); }
+        }
+        
+        /* Animasyon 2 */
+        .anim-2 {
+            animation: anim2 4s infinite;
+            color: #ccc;
+            text-shadow: 0 0 15px #ccc;
+        }
+        @keyframes anim2 {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-30px); }
+        }
+        
+        /* Animasyon 3 */
+        .anim-3 {
+            animation: anim3 2.5s infinite linear;
+            color: #fff;
+        }
+        @keyframes anim3 {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Animasyon 4 */
+        .anim-4 {
+            animation: anim4 3s infinite alternate;
+            color: #eee;
+            text-shadow: 0 0 20px #eee;
+        }
+        @keyframes anim4 {
+            0% { letter-spacing: normal; opacity: 0.3; }
+            100% { letter-spacing: 20px; opacity: 1; }
+        }
+        
+        /* Animasyon 5 */
+        .anim-5 {
+            animation: anim5 5s infinite alternate;
+            color: #ddd;
+        }
+        @keyframes anim5 {
+            0% { transform: skew(0deg, 0deg); }
+            25% { transform: skew(10deg, 10deg); }
+            50% { transform: skew(-10deg, -10deg); }
+            75% { transform: skew(5deg, 5deg); }
+            100% { transform: skew(0deg, 0deg); }
+        }
+        
+        /* Animasyon 6 */
+        .anim-6 {
+            animation: anim6 4s infinite;
+            color: #fff;
+            text-shadow: 0 0 10px #fff;
+        }
+        @keyframes anim6 {
+            0% { transform: perspective(400px) rotateX(0deg); }
+            50% { transform: perspective(400px) rotateX(180deg); }
+            100% { transform: perspective(400px) rotateX(360deg); }
+        }
+        
+        /* Animasyon 7 */
+        .anim-7 {
+            animation: anim7 3s infinite alternate;
+            color: #bbb;
+        }
+        @keyframes anim7 {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            100% { transform: scale(1.2); opacity: 1; }
+        }
+        
+        /* Animasyon 8 */
+        .anim-8 {
+            animation: anim8 6s infinite;
+            color: #ddd;
+            text-shadow: 0 0 15px #ddd;
+        }
+        @keyframes anim8 {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(50px); }
+            75% { transform: translateX(-50px); }
+        }
+        
+        /* Animasyon 9 */
+        .anim-9 {
+            animation: anim9 2s infinite alternate;
+            color: #aaa;
+        }
+        @keyframes anim9 {
+            0% { filter: blur(0px); }
+            100% { filter: blur(5px); }
+        }
+        
+        /* Animasyon 10 */
+        .anim-10 {
+            animation: anim10 3s infinite;
+            color: #eee;
+            text-shadow: 0 0 20px #eee;
+        }
+        @keyframes anim10 {
+            0% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-20px) rotate(5deg); }
+            50% { transform: translateY(0) rotate(0deg); }
+            75% { transform: translateY(20px) rotate(-5deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+        
+        /* Animasyon 11-100 için CSS aşağıda JavaScript ile dinamik olarak eklenecek */
+        
+        /* Responsive tasarım */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .text-display {
+                font-size: 2.8rem;
+            }
+            
+            .animation-display {
+                height: 250px;
+            }
+            
+            button {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+            
+            .made-by {
+                font-size: 1.1rem;
+                padding: 12px 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            .text-display {
+                font-size: 2rem;
+            }
+            
+            .animation-display {
+                height: 200px;
+            }
+            
+            .controls {
+                padding: 15px;
+                gap: 8px;
+            }
+            
+            button {
+                padding: 8px 12px;
+                font-size: 0.8rem;
+            }
+            
+            .made-by {
+                font-size: 1rem;
+                padding: 10px 15px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="stage">
-    <div class="fly-text" id="text">ritaj malmısın</div>
-    <div class="buttons" id="buttons">
-      <button class="yes" id="yesBtn">Evet</button>
-      <button class="no" id="noBtn">Hayır</button>
+    <div class="container">
+        <h1>Ritaj Malmısın - 100 Animasyon</h1>
+        
+        <div class="animation-display">
+            <div class="text-display" id="animated-text">ritaj malmısın</div>
+        </div>
+        
+        <div class="counter">
+            <span id="current-animation">1</span> / 100
+        </div>
+        
+        <div class="animation-info" id="animation-info">
+            Animasyon 1: Büyüme ve Dönme
+        </div>
+        
+        <div class="controls">
+            <button id="prev-btn"><i class="fas fa-chevron-left"></i> Önceki</button>
+            <button id="next-btn">Sonraki <i class="fas fa-chevron-right"></i></button>
+            <button id="random-btn"><i class="fas fa-random"></i> Rastgele</button>
+            <button id="auto-toggle" class="auto-toggle"><i class="fas fa-play"></i> Otomatik</button>
+            <button id="reset-btn"><i class="fas fa-redo"></i> Sıfırla</button>
+        </div>
+        
+        <div class="made-by">
+            made by <span>sosman</span>
+        </div>
     </div>
-  </div>
 
-  <script>
-    const text = document.getElementById('text');
-    const yesBtn = document.getElementById('yesBtn');
-    const noBtn = document.getElementById('noBtn');
-    const buttons = document.getElementById('buttons');
-
-    let yesScale = 1;
-    let noScale = 1;
-
-    noBtn.addEventListener('click', () => {
-      yesScale += 0.1;
-      noScale -= 0.05;
-      if(noScale <= 0.2){
-        noBtn.style.opacity = '0';
-        setTimeout(()=>{ noBtn.style.display = 'none'; },300);
-      }
-      yesBtn.style.transform = `scale(${yesScale})`;
-      noBtn.style.transform = `scale(${Math.max(noScale, 0)})`;
-    });
-
-    yesBtn.addEventListener('click', () => {
-      document.body.innerHTML = `<div id='finalText' style="color:#fff;font-size:clamp(28px,8vw,96px);font-weight:800;opacity:0;text-align:center;">biliyodum malsın</div>`;
-      const finalText = document.getElementById('finalText');
-      finalText.style.animation = 'textAppear 1s ease forwards';
-    });
-  </script>
+    <script>
+        // Animasyon dizisi
+        let currentAnimation = 1;
+        const totalAnimations = 100;
+        let autoChangeInterval = null;
+        let isAutoChanging = false;
+        
+        // DOM elementleri
+        const animatedText = document.getElementById('animated-text');
+        const currentAnimationElement = document.getElementById('current-animation');
+        const animationInfo = document.getElementById('animation-info');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const randomBtn = document.getElementById('random-btn');
+        const autoToggleBtn = document.getElementById('auto-toggle');
+        const resetBtn = document.getElementById('reset-btn');
+        
+        // Animasyon isimleri (bilgi için)
+        const animationNames = [
+            "Büyüme ve Dönme", "Yukarı-Aşağı Hareket", "360° Dönüş", "Harfleri Açma", "Eğik Hareket",
+            "3D Dönüş", "Parlaklık Dalgası", "Sola-Sağa Sallanma", "Bulanıklık Efekti", "Zıplama ve Dönme",
+            "Renk Değişimi", "Dans Eden Harfler", "Yanıp Sönme", "Dalga Efekti", "Yayılma Efekti",
+            "Kayan Gölge", "Zigzag Hareketi", "Dönen Renkler", "Sıkıştırma", "Yansıma Efekti",
+            "Hızlı Titreme", "Yavaş Açılma", "Uzayan Harfler", "Düşen Harfler", "Sıçrayan Harfler",
+            "Dairesel Hareket", "Kar Taneleri", "Ateş Efekti", "Su Dalgası", "Rüzgar Efekti",
+            "Mıknatıs Çekimi", "Yer Çekimi", "Uzay Boşluğu", "Patlama Efekti", "Toparlanma",
+            "Esneme Hareketi", "Kalp Atışı", "Solunum Efekti", "Yıldız Kayması", "Gece Gökyüzü",
+            "Güneş Doğuşu", "Gökkuşağı Geçişi", "Aurora Efekti", "Asansör Hareketi", "Salıncak",
+            "Sarkaç Hareketi", "Yaylı Hareket", "Sönümleme", "Zıplayan Top", "Uçan Balon",
+            "Uçak Hareketi", "Helikopter Pervanesi", "Dönen Dünya", "Ayın Evreleri", "Gezegen Dönüşü",
+            "Kuyruklu Yıldız", "Meteor Yağmuru", "Galaksi Dönüşü", "Kara Delik", "Işık Hızı",
+            "Zaman Yolculuğu", "Boyut Değişimi", "Şekil Değiştirme", "Görünmezlik", "Hayalet Efekti",
+            "Sihirli Dokunuş", "Büyü Efekti", "Sihirli Asa", "Kristal Büyüme", "Buzul Efekti",
+            "Alev Efekti", "Volkan Patlaması", "Deprem Titremesi", "Tsunami Dalgası", "Kasırga Dönüşü",
+            "Şimşek Çakması", "Yağmur Damlaları", "Kar Fırtınası", "Güneş Fırtınası", "Kum Fırtınası",
+            "Çöl Sıcağı", "Orman Serinliği", "Okyanus Derinliği", "Dağ Zirvesi", "Mağara Karanlığı",
+            "Define Avı", "Mücevher Parlaması", "Altın Parıltı", "Gümüş Işıltı", "Elmas Kırılması",
+            "Pırlanta Işığı", "Yakut Kırmızısı", "Zümrüt Yeşili", "Safir Mavisi", "Ametist Moru",
+            "İnci Beyazı", "Opal Gökkuşağı", "Kehribar Sarısı", "Obsidyen Siyahı", "Turkuaz Mavisi",
+            "Son 5 Özel Animasyon", "Sürpriz Efekt 1", "Sürpriz Efekt 2", "Sürpriz Efekt 3", "Sürpriz Efekt 4", "Sürpriz Efekt 5"
+        ];
+        
+        // Gri tonlarında rastgele renk oluşturma fonksiyonu
+        function getRandomGrayColor() {
+            // Sadece gri tonları (100-255 arası)
+            const grayValue = Math.floor(Math.random() * 156) + 100; // 100-255
+            return `rgb(${grayValue}, ${grayValue}, ${grayValue})`;
+        }
+        
+        // CSS'e 100 animasyon ekleme
+        function generateAnimations() {
+            const styleSheet = document.createElement('style');
+            let cssText = '';
+            
+            for (let i = 11; i <= totalAnimations; i++) {
+                // Her animasyon için rastgele özellikler
+                const duration = (Math.random() * 3 + 2).toFixed(1); // 2-5 saniye
+                const delay = (Math.random() * 1).toFixed(1); // 0-1 saniye
+                const grayColor = getRandomGrayColor();
+                
+                // Rastgele animasyon türleri (siyah beyaz temaya uygun)
+                const animationTypes = [
+                    `transform: rotate(${Math.random() * 360}deg) scale(${Math.random() + 0.5});`,
+                    `transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px);`,
+                    `transform: skew(${Math.random() * 30 - 15}deg, ${Math.random() * 30 - 15}deg);`,
+                    `letter-spacing: ${Math.random() * 30}px;`,
+                    `filter: blur(${Math.random() * 5}px) brightness(${Math.random() * 0.5 + 0.8});`,
+                    `opacity: ${Math.random() * 0.7 + 0.3};`,
+                    `text-shadow: 0 0 ${Math.random() * 30}px ${grayColor};`,
+                    `filter: drop-shadow(0 0 ${Math.random() * 15}px ${grayColor});`
+                ];
+                
+                // Rastgele keyframe oluşturma
+                const keyframePercent = Math.floor(Math.random() * 5) + 3; // 3-7 keyframe noktası
+                let keyframeText = '';
+                
+                for (let j = 0; j <= keyframePercent; j++) {
+                    const percent = (j / keyframePercent) * 100;
+                    const props = animationTypes[Math.floor(Math.random() * animationTypes.length)];
+                    keyframeText += `${percent}% { ${props} } `;
+                }
+                
+                cssText += `
+                .anim-${i} {
+                    animation: anim${i} ${duration}s infinite ${delay}s alternate;
+                    color: ${grayColor};
+                }
+                @keyframes anim${i} {
+                    ${keyframeText}
+                }
+                `;
+            }
+            
+            styleSheet.textContent = cssText;
+            document.head.appendChild(styleSheet);
+        }
+        
+        // Animasyonu güncelleme
+        function updateAnimation(animationNumber) {
+            // Önceki animasyon sınıflarını kaldır
+            animatedText.className = 'text-display';
+            
+            // Yeni animasyon sınıfını ekle
+            animatedText.classList.add(`anim-${animationNumber}`);
+            
+            // Güncel animasyon numarasını güncelle
+            currentAnimationElement.textContent = animationNumber;
+            
+            // Animasyon bilgisini güncelle
+            const nameIndex = Math.min(animationNumber - 1, animationNames.length - 1);
+            animationInfo.textContent = `Animasyon ${animationNumber}: ${animationNames[nameIndex]}`;
+            
+            // Yazı rengini ve gölgesini güncelle (siyah beyaz tema için gri tonları)
+            if (animationNumber <= 10) {
+                // İlk 10 animasyon için özel renkler zaten tanımlı
+                return;
+            }
+            
+            // Diğer animasyonlar için gri tonlarında rastgele renk
+            const randomGrayColor = getRandomGrayColor();
+            animatedText.style.color = randomGrayColor;
+            animatedText.style.textShadow = `0 0 15px ${randomGrayColor}`;
+        }
+        
+        // Önceki animasyon
+        function prevAnimation() {
+            currentAnimation = currentAnimation > 1 ? currentAnimation - 1 : totalAnimations;
+            updateAnimation(currentAnimation);
+        }
+        
+        // Sonraki animasyon
+        function nextAnimation() {
+            currentAnimation = currentAnimation < totalAnimations ? currentAnimation + 1 : 1;
+            updateAnimation(currentAnimation);
+        }
+        
+        // Rastgele animasyon
+        function randomAnimation() {
+            let newAnimation;
+            do {
+                newAnimation = Math.floor(Math.random() * totalAnimations) + 1;
+            } while (newAnimation === currentAnimation && totalAnimations > 1);
+            
+            currentAnimation = newAnimation;
+            updateAnimation(currentAnimation);
+        }
+        
+        // Otomatik değişimi başlat/durdur
+        function toggleAutoChange() {
+            if (isAutoChanging) {
+                clearInterval(autoChangeInterval);
+                autoToggleBtn.innerHTML = '<i class="fas fa-play"></i> Otomatik';
+                autoToggleBtn.classList.remove('active');
+                isAutoChanging = false;
+            } else {
+                autoChangeInterval = setInterval(nextAnimation, 3000);
+                autoToggleBtn.innerHTML = '<i class="fas fa-pause"></i> Durdur';
+                autoToggleBtn.classList.add('active');
+                isAutoChanging = true;
+            }
+        }
+        
+        // Sıfırlama
+        function resetAnimation() {
+            currentAnimation = 1;
+            updateAnimation(currentAnimation);
+            
+            if (isAutoChanging) {
+                toggleAutoChange();
+            }
+        }
+        
+        // Olay dinleyicileri
+        prevBtn.addEventListener('click', prevAnimation);
+        nextBtn.addEventListener('click', nextAnimation);
+        randomBtn.addEventListener('click', randomAnimation);
+        autoToggleBtn.addEventListener('click', toggleAutoChange);
+        resetBtn.addEventListener('click', resetAnimation);
+        
+        // Klavye tuşları ile kontrol
+        document.addEventListener('keydown', (e) => {
+            switch(e.key) {
+                case 'ArrowLeft':
+                    prevAnimation();
+                    break;
+                case 'ArrowRight':
+                    nextAnimation();
+                    break;
+                case ' ':
+                    toggleAutoChange();
+                    e.preventDefault();
+                    break;
+                case 'r':
+                case 'R':
+                    randomAnimation();
+                    break;
+                case 'Escape':
+                    resetAnimation();
+                    break;
+            }
+        });
+        
+        // Sayfa yüklendiğinde animasyonları oluştur ve başlat
+        window.addEventListener('DOMContentLoaded', () => {
+            generateAnimations();
+            updateAnimation(currentAnimation);
+            
+            // Başlangıçta otomatik değişimi başlat
+            toggleAutoChange();
+        });
+    </script>
 </body>
 </html>
